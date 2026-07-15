@@ -1,0 +1,9 @@
+### Entrega Final Taller de Programación
+* nombre_alumno: FERNANDEZ GARRIDO CAMILA INES
+* link: https://github.com/camigarrido/TP2
+* Variables de entorno:
+PORT=3000
+JWT_SECRET=supersecret
+AUTH_USER=admin
+AUTH_PASSWORD=admin123
+DB_PROVIDER=json

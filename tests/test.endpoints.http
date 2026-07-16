@@ -1,0 +1,101 @@
+### Hotel API - Tests de endpoints
+### Ver instrucciones de instalacion y como obtener un JWT en el README.md.
+
+@baseUrl = http://localhost:3000
+= ef31a996-b4fa-4585-b46a-8447d19ba8ce
+
+### 1. Login con credenciales validas -> 200 + JWT
+# @name login
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+###
+
+@token = {{login.response.body.$.token}}
+
+### 2. Login con credenciales invalidas -> 401
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "incorrecta"
+}
+
+### 3. Crear habitacion
+# @name habitacion
+POST {{baseUrl}}/api/v1/habitaciones
+Content-Type: application/json
+
+{
+  "nombre": "Habitacion Deluxe 101",
+  "plazasDisponibles": 2
+}
+
+###
+@idHabitacion = {{habitacion.response.body.$.id}}
+
+### 4. Crear habitacion - error de validacion (plazasDisponibles invalido)
+POST {{baseUrl}}/api/v1/habitaciones
+Content-Type: application/json
+
+{
+  "nombre": "Habitacion invalida",
+  "plazasDisponibles": -1
+}
+
+### 5. Listar habitaciones (sin filtro)
+GET {{baseUrl}}/api/v1/habitaciones
+
+### 6. Listar habitaciones disponibles (plazasDisponibles > 0)
+GET {{baseUrl}}/api/v1/habitaciones?disponible=true
+
+### 7. Obtener habitacion por id (reemplazar :id por un id real devuelto en el paso 3)
+GET {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+
+### 8. Obtener habitacion inexistente -> 404
+GET {{baseUrl}}/api/v1/habitaciones/000000
+
+### 9. Update SIN JWT -> 401
+PUT {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+Content-Type: application/json
+
+{
+  "plazasDisponibles": 3
+}
+
+### 10. Update CON JWT valido - incremento permitido (+1 respecto del valor actual)
+PUT {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "plazasDisponibles": 3
+}
+
+### 11. Update con incremento invalido (> 1) -> 400
+PUT {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "plazasDisponibles": 10
+}
+
+### 12. Delete SIN JWT -> 401
+DELETE {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+
+### 13. Delete protegido con JWT
+DELETE {{baseUrl}}/api/v1/habitaciones/{{idHabitacion}}
+Authorization: Bearer {{token}}
+
+### 14. Generar / descargar CSV de pokemon (no requiere autenticacion)
+GET {{baseUrl}}/api/v1/pokemon/csv
+
+### 15. Descargar CSV de pokemon como attachment
+GET {{baseUrl}}/api/v1/pokemon/csv?download=true

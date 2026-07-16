@@ -1,0 +1,16 @@
+id,name,height,weight,base_experience
+1,bulbasaur,7,69,64
+2,ivysaur,10,130,142
+3,venusaur,20,1000,236
+4,charmander,6,85,62
+5,charmeleon,11,190,142
+6,charizard,17,905,240
+7,squirtle,5,90,63
+8,wartortle,10,225,142
+9,blastoise,16,855,239
+10,caterpie,3,29,39
+11,metapod,7,99,72
+12,butterfree,11,320,178
+13,weedle,3,32,39
+14,kakuna,6,100,72
+15,beedrill,10,295,178
